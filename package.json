@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@material/web": "^2.3.0",
     "lit": "^3.0.0",
     "navigo": "^8.11.1"
   },

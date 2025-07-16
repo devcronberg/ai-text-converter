@@ -5,29 +5,129 @@
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Text Converter</title>
-    <script src='https://cdn.tailwindcss.com'></script>
-    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js" type="module"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --md-sys-color-primary: #6750a4;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-primary-container: #eaddff;
+            --md-sys-color-on-primary-container: #21005d;
+            --md-sys-color-secondary: #625b71;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-secondary-container: #e8def8;
+            --md-sys-color-on-secondary-container: #1d192b;
+            --md-sys-color-tertiary: #7d5260;
+            --md-sys-color-on-tertiary: #ffffff;
+            --md-sys-color-tertiary-container: #ffd8e4;
+            --md-sys-color-on-tertiary-container: #31111d;
+            --md-sys-color-error: #ba1a1a;
+            --md-sys-color-on-error: #ffffff;
+            --md-sys-color-error-container: #ffdad6;
+            --md-sys-color-on-error-container: #410002;
+            --md-sys-color-background: #fffbfe;
+            --md-sys-color-on-background: #1c1b1f;
+            --md-sys-color-surface: #fffbfe;
+            --md-sys-color-on-surface: #1c1b1f;
+            --md-sys-color-surface-variant: #e7e0ec;
+            --md-sys-color-on-surface-variant: #49454f;
+            --md-sys-color-outline: #79747e;
+            --md-sys-color-outline-variant: #cab6cf;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-scrim: #000000;
+            --md-sys-color-inverse-surface: #313033;
+            --md-sys-color-inverse-on-surface: #f4eff4;
+            --md-sys-color-inverse-primary: #d0bcff;
+            --md-sys-color-surface-tint: #6750a4;
+            --md-sys-color-surface-container-lowest: #ffffff;
+            --md-sys-color-surface-container-low: #f7f2fa;
+            --md-sys-color-surface-container: #f3edf7;
+            --md-sys-color-surface-container-high: #ece6f0;
+            --md-sys-color-surface-container-highest: #e6e0e9;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--md-sys-color-surface-container-lowest);
+            color: var(--md-sys-color-on-surface);
+        }
+        
+        .app-bar {
+            background-color: var(--md-sys-color-surface-container);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .app-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 64px;
+            gap: 32px;
+        }
+        
+        .app-title {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--md-sys-color-on-surface);
+            margin: 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .nav-link {
+            color: var(--md-sys-color-on-surface-variant);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            background-color: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface);
+        }
+        
+        .nav-link.active {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+    </style>
 </head>
 
-<body class='bg-gray-100'>
-    <nav class='bg-white shadow-sm border-b border-gray-200 mb-6'>
-        <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-            <div class='flex justify-between h-16'>
-                <div class='flex items-center space-x-8'>
-                    <h1 class='text-xl font-semibold text-gray-900'>Text Converter</h1>
-                    <div class='flex space-x-4'>
-                        <a href='#/'
-                            class='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium nav-link'>Convert</a>
-                        <a href='#/prompts'
-                            class='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium nav-link'>Prompts</a>
-                        <a href='#/settings'
-                            class='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium nav-link'>Settings</a>
-                    </div>
-                </div>
+<body>
+    <nav class='app-bar'>
+        <div class='app-bar-content'>
+            <h1 class='app-title'>Text Converter</h1>
+            <div class='nav-links'>
+                <a href='#/' class='nav-link'>Convert</a>
+                <a href='#/prompts' class='nav-link'>Prompts</a>
+                <a href='#/settings' class='nav-link'>Settings</a>
             </div>
         </div>
     </nav>
-    <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+    <div class='main-content'>
         <div id='app'></div>
     </div>
     <modal-alert id='modal-alert'></modal-alert>

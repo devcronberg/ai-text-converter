@@ -10,14 +10,12 @@ const app = document.getElementById('app');
 // Function to update active navigation state
 function updateActiveNav(activeRoute) {
     document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('text-blue-600', 'bg-blue-50');
-        link.classList.add('text-gray-700');
+        link.classList.remove('active');
     });
 
     const activeLink = document.querySelector(`a[href="#${activeRoute}"]`);
     if (activeLink) {
-        activeLink.classList.remove('text-gray-700');
-        activeLink.classList.add('text-blue-600', 'bg-blue-50');
+        activeLink.classList.add('active');
     }
 }
 

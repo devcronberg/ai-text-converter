@@ -21,20 +21,20 @@ class ModalAlert extends LitElement {
     }
     
     .modal {
-      background: white;
-      border-radius: 0.75rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      max-width: 28rem;
+      background: var(--md-sys-color-surface-container-high);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
       width: 90%;
       max-height: 80vh;
       overflow-y: auto;
-      animation: slideIn 0.2s ease-out;
+      animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     @keyframes slideIn {
       from {
         opacity: 0;
-        transform: scale(0.95) translateY(-20px);
+        transform: scale(0.9) translateY(-20px);
       }
       to {
         opacity: 1;
@@ -43,25 +43,26 @@ class ModalAlert extends LitElement {
     }
     
     .modal-header {
-      padding: 1.5rem 1.5rem 0 1.5rem;
+      padding: 24px 24px 16px 24px;
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 16px;
     }
     
     .icon {
-      width: 2rem;
-      height: 2rem;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      font-size: 20px;
     }
     
     .icon.error {
-      background: #fee2e2;
-      color: #dc2626;
+      background: var(--md-sys-color-error-container);
+      color: var(--md-sys-color-on-error-container);
     }
     
     .icon.warning {
@@ -70,54 +71,63 @@ class ModalAlert extends LitElement {
     }
     
     .icon.info {
-      background: #dbeafe;
-      color: #2563eb;
+      background: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
     }
     
     .modal-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: #111827;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+      margin: 0;
     }
     
     .modal-body {
-      padding: 1rem 1.5rem;
+      padding: 0 24px 16px 24px;
     }
     
     .modal-message {
-      color: #374151;
+      color: var(--md-sys-color-on-surface-variant);
       line-height: 1.5;
       white-space: pre-line;
+      margin: 0;
+      font-size: 14px;
     }
     
     .modal-footer {
-      padding: 0 1.5rem 1.5rem 1.5rem;
+      padding: 0 24px 24px 24px;
       display: flex;
       justify-content: flex-end;
     }
     
     .close-button {
-      background: #f3f4f6;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
       border: none;
-      border-radius: 0.5rem;
-      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      padding: 10px 24px;
       font-weight: 500;
-      color: #374151;
+      font-size: 14px;
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
     
     .close-button:hover {
-      background: #e5e7eb;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      transform: translateY(-1px);
+    }
+    
+    .close-button:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
     
     .close-button.error {
-      background: #dc2626;
-      color: white;
-    }
-    
-    .close-button.error:hover {
-      background: #b91c1c;
+      background: var(--md-sys-color-error);
+      color: var(--md-sys-color-on-error);
     }
     
     .close-button.warning {
@@ -125,17 +135,9 @@ class ModalAlert extends LitElement {
       color: white;
     }
     
-    .close-button.warning:hover {
-      background: #b45309;
-    }
-    
     .close-button.info {
-      background: #2563eb;
-      color: white;
-    }
-    
-    .close-button.info:hover {
-      background: #1d4ed8;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
     }
   `;
 

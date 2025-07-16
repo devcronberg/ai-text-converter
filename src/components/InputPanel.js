@@ -4,15 +4,16 @@ class InputPanel extends LitElement {
     :host { 
       display: block; 
       width: 100%;
-      padding: 1rem; 
-      background: white; 
-      border-radius: 0.5rem; 
+      padding: 24px; 
+      background: var(--md-sys-color-surface-container-low); 
+      border-radius: 12px; 
       box-sizing: border-box;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
     .textarea-container {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 32px;
       width: 100%;
     }
     @media (min-width: 768px) {
@@ -26,27 +27,30 @@ class InputPanel extends LitElement {
 
       .textarea-icon {
         position: absolute;
-        top: 0.75rem;
-        right: 0.75rem;
-        width: 1.5rem;
-        height: 1.5rem;
+        top: 12px;
+        right: 12px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
-        color: #6b7280;
-        transition: color 0.2s ease;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 0.25rem;
-        padding: 0.25rem;
-        backdrop-filter: blur(4px);
+        color: var(--md-sys-color-on-surface-variant);
+        transition: all 0.2s ease;
+        background: var(--md-sys-color-surface-container-highest);
+        border-radius: 50%;
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .textarea-icon:hover {
-        color: #3b82f6;
-        background: rgba(255, 255, 255, 1);
+        color: var(--md-sys-color-primary);
+        background: var(--md-sys-color-primary-container);
+        transform: scale(1.1);
       }
 
       .textarea-icon svg {
-        width: 100%;
-        height: 100%;
+        width: 16px;
+        height: 16px;
         stroke: currentColor;
         fill: none;
         stroke-width: 2;
@@ -55,54 +59,68 @@ class InputPanel extends LitElement {
     textarea {
       width: 100%;
       min-height: 200px;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 0.25rem;
+      padding: 16px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 8px;
       resize: vertical;
       box-sizing: border-box;
-      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-family: 'Roboto Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--md-sys-color-on-surface);
+      background: var(--md-sys-color-surface);
+      transition: border-color 0.2s ease;
     }
+    
+    textarea:focus {
+      outline: none;
+      border-color: var(--md-sys-color-primary);
+      box-shadow: 0 0 0 2px rgba(103, 80, 164, 0.2);
+    }
+    
     .controls {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 16px;
+      margin-bottom: 32px;
       flex-wrap: wrap;
     }
 
     .prompt-select, .model-select {
       appearance: none;
-      background: white;
-      border: 2px solid #e5e7eb;
-      border-radius: 0.75rem;
-      padding: 0.75rem 1rem;
-      font-size: 0.875rem;
-      color: #374151;
+      background: var(--md-sys-color-surface-container-highest);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--md-sys-color-on-surface);
       cursor: pointer;
       transition: all 0.2s ease;
       min-width: 200px;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-      background-position: right 0.75rem center;
+      font-family: 'Roboto', sans-serif;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2349454f' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 12px center;
       background-repeat: no-repeat;
-      background-size: 1.25rem;
-      padding-right: 2.5rem;
+      background-size: 16px;
+      padding-right: 40px;
     }
 
     .prompt-select:hover, .model-select:hover {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      border-color: var(--md-sys-color-primary);
+      background-color: var(--md-sys-color-surface-container-high);
     }
 
     .prompt-select:focus, .model-select:focus {
       outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      border-color: var(--md-sys-color-primary);
+      box-shadow: 0 0 0 2px rgba(103, 80, 164, 0.2);
     }
 
     .prompt-select:disabled, .model-select:disabled {
-      opacity: 0.5;
+      opacity: 0.38;
       cursor: not-allowed;
-      background-color: #f9fafb;
+      background-color: var(--md-sys-color-surface-variant);
+      color: var(--md-sys-color-on-surface-variant);
     }
     .loading {
       opacity: 0.6;
@@ -110,45 +128,52 @@ class InputPanel extends LitElement {
     }
     .spinner {
       display: inline-block;
-      width: 1rem;
-      height: 1rem;
-      border: 2px solid #f3f3f3;
-      border-top: 2px solid #22c55e;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--md-sys-color-outline-variant);
+      border-top: 2px solid var(--md-sys-color-primary);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-right: 0.5rem;
+      margin-right: 8px;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
     .execute-button {
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-      color: white;
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
       border: none;
-      border-radius: 0.75rem;
-      padding: 0.75rem 1.5rem;
-      font-size: 0.875rem;
-      font-weight: 600;
+      border-radius: 20px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+      gap: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      font-family: 'Roboto', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .execute-button:hover:not(:disabled) {
+      background: var(--md-sys-color-primary);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
       transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
     }
     .execute-button:active:not(:disabled) {
       transform: translateY(0);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
     .execute-button:disabled {
-      opacity: 0.6;
+      opacity: 0.38;
       cursor: not-allowed;
       transform: none;
-      background: #9ca3af;
+      background: var(--md-sys-color-surface-variant);
+      color: var(--md-sys-color-on-surface-variant);
+      box-shadow: none;
     }
   `;
     constructor() {
