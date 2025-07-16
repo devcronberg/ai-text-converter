@@ -1,10 +1,16 @@
 import { html, LitElement } from 'lit';
+import '@material/web/button/filled-button.js';
+import '@material/web/select/filled-select.js';
+import '@material/web/select/select-option.js';
+import '@material/web/textfield/filled-text-field.js';
+import '@material/web/progress/circular-progress.js';
+
 class InputPanel extends LitElement {
     // Disable shadow DOM to allow external CSS styling
     createRenderRoot() {
         return this;
     }
-    
+
     constructor() {
         super();
         this.textIn = '';
@@ -253,47 +259,51 @@ class InputPanel extends LitElement {
 
     render() {
         return html`
-      <div class='controls ${this.isLoading ? 'loading' : ''}'>
-        <select class='prompt-select' ?disabled='${this.isLoading}' @change='${e => { this.selectedPrompt = e.target.value; localStorage.setItem("lastSelectedPrompt", e.target.value); }}'>
-          <option value=''>Select prompt</option>
-          ${this.prompts.map(p => html`<option value='${p.name}' ?selected='${p.name === this.selectedPrompt}'>${p.name}</option>`)}
-        </select>
-        <select class='model-select' ?disabled='${this.isLoading}' @change='${e => { this.selectedModel = e.target.value; localStorage.setItem("lastSelectedModel", e.target.value); }}'>
-          ${this.models.map(model => html`
-            <option value='${model.id}' ?selected='${model.id === this.selectedModel}'>
-              ${model.name || model.id}
-            </option>
-          `)}
-        </select>
-        <button class='execute-button' ?disabled='${this.isLoading}' @click='${() => this.runConversion()}'>
-          ${this.isLoading ? html`<span class='spinner'></span>Processing...` : 'Convert'}
-        </button>
-      </div>
-      <div class='textarea-container ${this.isLoading ? 'loading' : ''}'>
-        <div class='textarea-wrapper'>
-          <textarea 
-            placeholder="Input text..." 
-            .value='${this.textIn}'
-            ?disabled='${this.isLoading}'
-            @input='${e => this.textIn = e.target.value}'>
-          </textarea>
-          <div class='textarea-icon' @click='${() => this.pasteFromClipboard()}' title='Paste from clipboard'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.42 2.42 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c0 .621.504 1.125 1.125 1.125H18a2.25 2.25 0 0 0 2.25-2.25M8.25 8.25l13.5 0" />
-            </svg>
-          </div>
+      <div style="padding: 24px; background: #f7f2fa; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);">
+        <div style="display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;">
+          <md-filled-select label="Select prompt" .value="${this.selectedPrompt}" ?disabled="${this.isLoading}" @change="${e => { this.selectedPrompt = e.target.value; localStorage.setItem('lastSelectedPrompt', e.target.value); }}">
+            <md-select-option value="">
+              <div slot="headline">No prompt</div>
+            </md-select-option>
+            ${this.prompts.map(p => html`
+              <md-select-option .value="${p.name}" ?selected="${p.name === this.selectedPrompt}">
+                <div slot="headline">${p.name}</div>
+              </md-select-option>
+            `)}
+          </md-filled-select>
+          
+          <md-filled-select label="Select model" .value="${this.selectedModel}" ?disabled="${this.isLoading}" @change="${e => { this.selectedModel = e.target.value; localStorage.setItem('lastSelectedModel', e.target.value); }}">
+            ${this.models.map(model => html`
+              <md-select-option .value="${model.id}" ?selected="${model.id === this.selectedModel}">
+                <div slot="headline">${model.name || model.id}</div>
+              </md-select-option>
+            `)}
+          </md-filled-select>
+          
+          <md-filled-button ?disabled="${this.isLoading}" @click="${() => this.runConversion()}">
+            ${this.isLoading ? html`<md-circular-progress indeterminate></md-circular-progress>Processing...` : 'Convert'}
+          </md-filled-button>
         </div>
-        <div class='textarea-wrapper'>
-          <textarea 
-            placeholder="Output text..." 
-            .value='${this.textOut}' 
-            readonly>
-          </textarea>
-          <div class='textarea-icon' @click='${() => this.copyToClipboard()}' title='Copy to clipboard'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-            </svg>
-          </div>
+        
+        <div style="display: flex; gap: 24px; ${window.innerWidth < 768 ? 'flex-direction: column;' : 'flex-direction: row;'}">
+          <md-filled-text-field 
+            type="textarea" 
+            label="Input text" 
+            .value="${this.textIn}"
+            ?disabled="${this.isLoading}"
+            @input="${e => this.textIn = e.target.value}"
+            rows="8"
+            style="flex: 1;">
+          </md-filled-text-field>
+          
+          <md-filled-text-field 
+            type="textarea" 
+            label="Output text" 
+            .value="${this.textOut}"
+            readonly
+            rows="8"
+            style="flex: 1;">
+          </md-filled-text-field>
         </div>
       </div>
     `;
