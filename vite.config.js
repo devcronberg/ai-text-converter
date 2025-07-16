@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/text-converter-app/',
+  base: '/ai-text-converter/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets'
