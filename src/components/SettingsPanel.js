@@ -1,10 +1,29 @@
 import { html, LitElement } from 'lit';
 import '@material/web/textfield/filled-text-field.js';
+import '@material/web/button/filled-button.js';
 
 class SettingsPanel extends LitElement {
     // Disable shadow DOM to allow external CSS styling
     createRenderRoot() {
         return this;
+    }
+
+    constructor() {
+        super();
+        this.apiKey = localStorage.getItem('api_key') || '';
+        this.savedMessage = false;
+    }
+
+    saveSettings() {
+        localStorage.setItem('api_key', this.apiKey);
+        this.savedMessage = true;
+        this.requestUpdate();
+
+        // Hide the saved message after 3 seconds
+        setTimeout(() => {
+            this.savedMessage = false;
+            this.requestUpdate();
+        }, 3000);
     }
 
     render() {
@@ -13,12 +32,27 @@ class SettingsPanel extends LitElement {
         <h2 style="font-size: 22px; font-weight: 400; margin: 0 0 24px 0; color: #1d1b20;">Settings</h2>
         <div style="margin-bottom: 24px;">
           <md-filled-text-field 
-            label="API Key" 
+            label="OpenRouter API Key" 
             type="password" 
-            .value="${localStorage.getItem('api_key') || ''}"
-            @input="${(e) => localStorage.setItem('api_key', e.target.value)}"
+            .value="${this.apiKey}"
+            @input="${(e) => this.apiKey = e.target.value}"
             style="width: 100%;">
           </md-filled-text-field>
+          <div style="margin-top: 8px; font-size: 14px; color: #49454f;">
+            Get your API key from <a href="https://openrouter.ai/keys" target="_blank" style="color: #6750a4;">OpenRouter</a>
+          </div>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <md-filled-button @click="${this.saveSettings}">
+            Save Settings
+          </md-filled-button>
+          
+          ${this.savedMessage ? html`
+            <div style="color: #4caf50; font-size: 14px; font-weight: 500;">
+              ✓ Settings saved successfully!
+            </div>
+          ` : ''}
         </div>
       </div>
     `;

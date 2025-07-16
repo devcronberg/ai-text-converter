@@ -15,26 +15,35 @@ class InputPanel extends LitElement {
         super();
         this.textIn = '';
         this.textOut = '';
-        this.prompts = this.loadPrompts();
+        this.prompts = [];
         this.selectedPrompt = localStorage.getItem('lastSelectedPrompt') || '';
         this.models = [];
         this.selectedModel = localStorage.getItem('lastSelectedModel') || '';
         this.isLoading = false;
+        this.loadPrompts();
     }
 
-    loadPrompts() {
-        const stored = localStorage.getItem('prompts');
-        if (stored) {
-            const prompts = JSON.parse(stored);
-            // Handle both old format {name, template} and new format {id, name, template, sortOrder}
-            return prompts.map(prompt => ({
-                id: prompt.id || prompt.name,
-                name: prompt.name,
-                template: prompt.template,
-                sortOrder: prompt.sortOrder || 0
-            })).sort((a, b) => a.sortOrder - b.sortOrder);
+    async loadPrompts() {
+        try {
+            const stored = localStorage.getItem('prompts');
+            if (stored) {
+                const prompts = JSON.parse(stored);
+                this.prompts = prompts.map(prompt => ({
+                    id: prompt.id || prompt.name,
+                    name: prompt.name,
+                    template: prompt.template,
+                    sortOrder: prompt.sortOrder || 0,
+                    isSystem: prompt.isSystem || false
+                })).sort((a, b) => a.sortOrder - b.sortOrder);
+            } else {
+                this.prompts = [];
+            }
+
+            this.requestUpdate();
+        } catch (error) {
+            console.error('Failed to load prompts:', error);
+            this.prompts = [];
         }
-        return [];
     }
 
     firstUpdated() {
@@ -168,7 +177,7 @@ class InputPanel extends LitElement {
 
         try {
             // Reload prompts from localStorage to ensure we have latest
-            this.prompts = this.loadPrompts();
+            await this.loadPrompts();
 
             console.log('All prompts:', this.prompts);
             console.log('Selected prompt name:', this.selectedPrompt);
@@ -178,7 +187,8 @@ class InputPanel extends LitElement {
             console.log('Input text:', this.textIn);
 
             if (!this.selectedPrompt) {
-                console.warn('No prompt selected');
+                this.showModal('warning', 'No Prompt Selected', 'Please select a prompt from the dropdown.');
+                return;
             }
 
             const input = prompt ? `${prompt}\n\n${this.textIn}` : this.textIn;
@@ -278,9 +288,6 @@ class InputPanel extends LitElement {
       <div style="padding: 24px; background: #f7f2fa; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);">
         <div style="display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;">
           <md-filled-select label="Select prompt" .value="${this.selectedPrompt}" ?disabled="${this.isLoading}" @change="${e => { this.selectedPrompt = e.target.value; localStorage.setItem('lastSelectedPrompt', e.target.value); }}">
-            <md-select-option value="">
-              <div slot="headline">No prompt</div>
-            </md-select-option>
             ${this.prompts.map(p => html`
               <md-select-option .value="${p.name}" ?selected="${p.name === this.selectedPrompt}">
                 <div slot="headline">${p.name}</div>
@@ -301,15 +308,15 @@ class InputPanel extends LitElement {
           </md-filled-button>
         </div>
         
-        <div style="display: flex; gap: 24px; ${window.innerWidth < 768 ? 'flex-direction: column;' : 'flex-direction: row;'}">
+        <div style="display: flex; gap: 24px; ${window.innerWidth < 768 ? 'flex-direction: column; height: auto;' : 'flex-direction: row; height: calc(100vh - 300px);'}">
           <md-filled-text-field 
             type="textarea" 
             label="Input text" 
             .value="${this.textIn}"
             ?disabled="${this.isLoading}"
             @input="${e => this.textIn = e.target.value}"
-            rows="8"
-            style="flex: 1;">
+            style="flex: 1; ${window.innerWidth >= 768 ? 'height: 100%;' : ''}"
+            rows="${window.innerWidth < 768 ? '8' : ''}">
           </md-filled-text-field>
           
           <md-filled-text-field 
@@ -317,8 +324,8 @@ class InputPanel extends LitElement {
             label="Output text" 
             .value="${this.textOut}"
             readonly
-            rows="8"
-            style="flex: 1;">
+            style="flex: 1; ${window.innerWidth >= 768 ? 'height: 100%;' : ''}"
+            rows="${window.innerWidth < 768 ? '8' : ''}">
           </md-filled-text-field>
         </div>
       </div>
