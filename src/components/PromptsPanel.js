@@ -72,7 +72,7 @@ class PromptsPanel extends LitElement {
 
     validateForm() {
         this.errors = { name: '', template: '' };
-        
+
         if (!this.formData.name.trim()) {
             this.errors.name = 'Name is required';
         } else if (this.formData.name.trim().length > 50) {
@@ -170,7 +170,7 @@ class PromptsPanel extends LitElement {
     handleDrop(e, dropIndex) {
         e.preventDefault();
         e.target.closest('[draggable="true"]').style.borderTop = '1px solid #cab6cf';
-        
+
         if (this.draggedIndex === dropIndex) return;
 
         // Reorder the array
