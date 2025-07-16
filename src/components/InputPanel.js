@@ -15,12 +15,28 @@ class InputPanel extends LitElement {
         super();
         this.textIn = '';
         this.textOut = '';
-        this.prompts = JSON.parse(localStorage.getItem('prompts') || '[]');
+        this.prompts = this.loadPrompts();
         this.selectedPrompt = localStorage.getItem('lastSelectedPrompt') || '';
         this.models = [];
         this.selectedModel = localStorage.getItem('lastSelectedModel') || '';
         this.isLoading = false;
     }
+
+    loadPrompts() {
+        const stored = localStorage.getItem('prompts');
+        if (stored) {
+            const prompts = JSON.parse(stored);
+            // Handle both old format {name, template} and new format {id, name, template, sortOrder}
+            return prompts.map(prompt => ({
+                id: prompt.id || prompt.name,
+                name: prompt.name,
+                template: prompt.template,
+                sortOrder: prompt.sortOrder || 0
+            })).sort((a, b) => a.sortOrder - b.sortOrder);
+        }
+        return [];
+    }
+
     firstUpdated() {
         this.loadModels();
 
@@ -152,7 +168,7 @@ class InputPanel extends LitElement {
 
         try {
             // Reload prompts from localStorage to ensure we have latest
-            this.prompts = JSON.parse(localStorage.getItem('prompts') || '[]');
+            this.prompts = this.loadPrompts();
 
             console.log('All prompts:', this.prompts);
             console.log('Selected prompt name:', this.selectedPrompt);
