@@ -6,7 +6,7 @@ import './components/PromptsPanel.js';
 import './components/InputPanel.js';
 import './components/ModalAlert.js';
 
-const router = new Navigo('/', { hash: true });
+const router = new Navigo(null, { hash: true });
 const app = document.getElementById('app');
 
 // Create main layout with Material Design
@@ -71,6 +71,11 @@ router.on({
         updateActiveTab('/prompts');
     }
 }).resolve();
+
+// Ensure default route is loaded if no hash
+if (!window.location.hash) {
+    router.navigate('/');
+}
 
 // Add modal alert to body
 document.body.appendChild(document.createElement('modal-alert'));
