@@ -304,7 +304,7 @@ class InputPanel extends LitElement {
           </md-filled-select>
           
           <md-filled-button ?disabled="${this.isLoading}" @click="${() => this.runConversion()}">
-            ${this.isLoading ? html`<md-circular-progress indeterminate></md-circular-progress>Processing...` : 'Convert'}
+            ${this.isLoading ? html`<md-circular-progress indeterminate></md-circular-progress>Processing...` : 'Convert text'}
           </md-filled-button>
         </div>
         

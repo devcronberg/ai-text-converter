@@ -15,7 +15,7 @@ function createLayout() {
         <div style="font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background-color: #fef7ff; color: #1d1b20; min-height: 100vh;">
             <div style="background-color: #f3edf7; padding: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                 <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 32px;">
-                    <h1 style="font-size: 22px; font-weight: 400; margin: 0; color: #1d1b20;">Text Converter</h1>
+                    <h1 style="font-size: 22px; font-weight: 400; margin: 0; color: #1d1b20;">AI Text Converter</h1>
                     <md-tabs style="flex: 1;">
                         <md-primary-tab id="convert-tab">Convert text</md-primary-tab>
                         <md-primary-tab id="prompts-tab">Prompts</md-primary-tab>
@@ -93,11 +93,11 @@ function showWelcomeModal() {
         if (modal) {
             console.log('Showing welcome modal - no API key found');
             // Use the same approach as other components
-            modal.title = 'Welcome to Text Converter! 🎉';
+            modal.title = 'Welcome to AI Text Converter!';
             modal.message = `To get started, you need to:
 
 1. Create a free account at <a href="https://openrouter.ai" target="_blank">OpenRouter.ai</a>
-2. Generate an API key in your account settings
+2. Generate an API key in your <a href="https://openrouter.ai/keys" target="_blank">account settings</a>
 3. Add the API key in the Settings tab
 4. Import example prompts in the Prompts tab (or create your own)
 
